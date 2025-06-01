@@ -1,0 +1,14 @@
+{
+  "name": "youtube-api-extension",
+  "version": "1.0.0",
+  "description": "A Chrome extension that calls an API endpoint every 10 seconds with the current YouTube URL.",
+  "main": "src/background.js",
+  "scripts": {
+    "build": "echo 'Build script placeholder'",
+    "test": "echo 'Test script placeholder'"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
