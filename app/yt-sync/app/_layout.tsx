@@ -1,20 +1,30 @@
+import React, { useEffect, useState } from 'react';
 import VideoRedirect from '@/components/yt/VideoRedirect';
-import { Linking, BackHandler } from 'react-native';
-import 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SetId from '@/components/yt/SetId';
 
-export default async function RootLayout() {
+export default function RootLayout() {
+  const [userID, setUserID] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    AsyncStorage.getItem('userID').then(setUserID);
+    loading && setLoading(false);
+  }, []);
 
-  const userID = await AsyncStorage.getItem('userID');
-  
   return (
     <> 
-      {userID ? <VideoRedirect/> : <SetId setUserId={async (id : string) => {
-          await AsyncStorage.setItem('userID', id);
-        }
-      } />}
-      
+      {!loading ?
+        userID ? (
+          <VideoRedirect userID={userID} />
+        ) : (
+          <SetId setUserId={async (id: string) => {
+            await AsyncStorage.setItem('userID', id);
+            setUserID(id);
+          }} />
+        )
+      : 
+      <></>
+    }
     </>
   );
 }

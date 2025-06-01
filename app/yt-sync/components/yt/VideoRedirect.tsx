@@ -1,23 +1,37 @@
+import React, { useEffect } from "react";
 import { BackHandler, Linking } from "react-native";
 
-export default async function VideoRedirect() {
-const apikey = '14p2ivui';
-  const id = 'tttytyt'; // should be set by the app
-  const kvget = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/${apikey}/${id}`;
+type VideoRedirectProps = {
+  userID: string;
+};
 
-  const response = await fetch(kvget);
-  if (!response.ok) {
-    console.error('Failed to fetch data');
-    return;
-  }
+export default function VideoRedirect({ userID }: VideoRedirectProps) {
+  useEffect(() => {
+    const apikey = '14p2ivui';
+    // test userID: 'tttytyt'
+    const kvget = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/${apikey}/${userID}`;
 
-  const data = await response.text();
-  const videoID = data.substring(1, 12);
-  const videoTime = data.substring(12, 14); 
+    async function redirect() {
+      try {
+        const response = await fetch(kvget);
+        if (!response.ok) {
+          console.error('Failed to fetch data');
+          return;
+        }
+        const data = await response.text();
+        const videoID = data.substring(1, 12);
+        const videoTime = data.substring(12, 14); 
 
-  const yturl = 'vnd.youtube://youtu.be/' + videoID + '?t=' + videoTime;
-  Linking.openURL(yturl);
-  BackHandler.exitApp();
+        const yturl = 'vnd.youtube://youtu.be/' + videoID + '?t=' + videoTime;
+        Linking.openURL(yturl);
+        BackHandler.exitApp();
+      } catch (e) {
+        console.error(e);
+      }
+    }
 
-  return null; // No UI to render, just a redirect
+    redirect();
+  }, [userID]);
+
+  return null;
 }
