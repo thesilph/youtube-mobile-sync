@@ -20,9 +20,8 @@ export default function VideoRedirect({ userID }: VideoRedirectProps) {
         }
         const data = await response.text();
         const videoID = data.substring(1, 12);
-        const videoTime = data.substring(12, 14); 
-
-        const yturl = 'vnd.youtube://youtu.be/' + videoID + '?t=' + videoTime;
+        const videoTime = data.substring(12).replace('"', '');
+        const yturl = 'vnd.youtube://youtube.com/watch?v=' + videoID + '&t=' + videoTime;
         Linking.openURL(yturl);
         BackHandler.exitApp();
       } catch (e) {
