@@ -1,4 +1,4 @@
-const API_ENDPOINT = 'https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/14p2ivui/tttytyt/'; // Replace with your actual API endpoint
+const API_ENDPOINT = 'https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/14p2ivui/'; // + userId + '/';
 
 var thingproxy = 'https://cors-lopix.duarte-madureira-lopes.workers.dev/?url=';
 
@@ -8,38 +8,42 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 setInterval(() => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        if (tabs.length > 0) {
-            const tab = tabs[0];
-            // Only proceed if on a YouTube watch page
-            if (tab.url && tab.url.startsWith('https://www.youtube.com/watch')) {
-                const tabId = tab.id;
-                const currentUrl = tab.url;
+    chrome.storage.local.get('userId', (result) => {
+        const userId = result.userId;
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            if (tabs.length > 0) {
+                const tab = tabs[0];
+                // Only proceed if on a YouTube watch page
+                if (tab.url && tab.url.startsWith('https://www.youtube.com/watch')) {
+                    const tabId = tab.id;
+                    const currentUrl = tab.url;
 
-                chrome.tabs.sendMessage(tabId, { type: 'GET_TIMESTAMP' }, (response) => {
-                    const timestamp = response?.currentTime || '0';
-                    const videoId = getVideoIdFromUrl(currentUrl) || '';
-                    // No slash between videoId and timestamp
-                    const proxiedUrl = thingproxy + encodeURIComponent(API_ENDPOINT + videoId + timestamp);
+                    chrome.tabs.sendMessage(tabId, { type: 'GET_TIMESTAMP' }, (response) => {
+                        const timestamp = response?.currentTime || '0';
+                        const videoId = getVideoIdFromUrl(currentUrl) || '';
+                        
+                        const endpointWithUserId = API_ENDPOINT + userId + '/';
+                        const proxiedUrl = thingproxy + encodeURIComponent(endpointWithUserId + videoId + timestamp);
 
-                    fetch(proxiedUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ url: currentUrl, timestamp })
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            console.error('Error calling API:', response.statusText);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Fetch error:', error);
+                        fetch(proxiedUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ url: currentUrl, timestamp })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                console.error('Error calling API:', response.statusText);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Fetch error:', error);
+                        });
                     });
-                });
+                }
             }
-        }
+        });
     });
 }, 10000); // 10 seconds interval
 
