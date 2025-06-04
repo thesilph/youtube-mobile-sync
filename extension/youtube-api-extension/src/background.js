@@ -1,5 +1,7 @@
+// Set up your storage, we are using the keyvalue.immanuel.co 🙏 API for this example
 const API_ENDPOINT = 'https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/14p2ivui/'; // + userId + '/';
 
+// configure a proxy here to avoid CORS issues
 var thingproxy = 'https://cors-lopix.duarte-madureira-lopes.workers.dev/?url=';
 
 

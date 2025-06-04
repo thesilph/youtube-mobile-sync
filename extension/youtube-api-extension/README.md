@@ -45,3 +45,8 @@ Feel free to submit issues or pull requests for improvements or bug fixes.
 ## License
 
 This project is licensed under the MIT License.
+
+## Thanks
+
+Thank you to [immanuel.co](https://immanuel.co/) for their helpful project!
+

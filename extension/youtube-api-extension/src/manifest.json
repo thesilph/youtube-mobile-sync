@@ -17,5 +17,8 @@
   ],
   "host_permissions": [
     "https://www.youtube.com/*"
-  ]
+  ],
+  "icons": {
+    "128": "icon_128.png"
+  }
 }
