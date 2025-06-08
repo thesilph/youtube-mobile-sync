@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "YouTube API Extension",
+  "name": "ytsync-silph",
   "version": "1.0",
   "permissions": ["tabs", "scripting", "webNavigation", "storage"],
   "action": {
