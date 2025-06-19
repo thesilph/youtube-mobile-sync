@@ -4,12 +4,12 @@
 
 This project consists of two parts:
 
-1. **Chrome Extension**  
+1. [**Chrome Extension**](https://chromewebstore.google.com/detail/ytsync-silph/bgflobfccdggmjlbcngfncgfcfpabbmf)
    - Generates a unique user ID for you.
    - Monitors your activity on YouTube watch pages.
    - Every 10 seconds, it saves the current video ID and timestamp you are watching to an online key-value store, associated with your user ID.
 
-2. **React Native App**  
+2. [**React Native App**](https://play.google.com/store/apps/details?id=com.thesilph.ytsync)
    - You enter your user ID once.
    - When you open the app, it fetches your last watched YouTube video and timestamp from the online store.
    - The app then opens the YouTube app (or browser) directly to that video and timestamp, so you can resume watching where you left off.
